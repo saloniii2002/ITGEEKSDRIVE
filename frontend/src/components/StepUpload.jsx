@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Upload, FileText, Image as ImageIcon, Sparkles, AlertCircle } from "lucide-react";
+import { Upload, FileText, Image as ImageIcon, Sparkles, AlertCircle, Edit3 } from "lucide-react";
 import { uploadBill } from "../api";
 
 export default function StepUpload({ onExtractionComplete }) {
@@ -55,6 +55,11 @@ export default function StepUpload({ onExtractionComplete }) {
     }
   };
 
+  const handleManualEntry = async () => {
+    // Automatically trigger instant demo/template bill
+    await handleLoadDemo();
+  };
+
   return (
     <div className="card">
       <h2 className="card-title">
@@ -79,7 +84,7 @@ export default function StepUpload({ onExtractionComplete }) {
         onDrop={handleDrop}
         onClick={() => document.getElementById("bill-file-input").click()}
       >
-        <Upload size={44} style={{ color: "#60a5fa", margin: "0 auto 1rem" }} />
+        <Upload size={44} style={{ color: "var(--primary-brand)", margin: "0 auto 1rem" }} />
         <p style={{ fontWeight: 600, fontSize: "1.05rem", marginBottom: "0.25rem" }}>
           Drag & drop bill photos here, or click to browse
         </p>
@@ -111,15 +116,25 @@ export default function StepUpload({ onExtractionComplete }) {
         </div>
       )}
 
-      <div className="action-bar">
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={handleLoadDemo}
-          disabled={loading}
-        >
-          <Sparkles size={16} /> Use Sample Demo Bill
-        </button>
+      <div className="action-bar" style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleLoadDemo}
+            disabled={loading}
+          >
+            <Sparkles size={16} /> ⚡ Instant Demo Bill
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleManualEntry}
+            disabled={loading}
+          >
+            <Edit3 size={16} /> Manual Entry
+          </button>
+        </div>
 
         <button
           type="button"

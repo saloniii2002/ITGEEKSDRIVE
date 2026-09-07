@@ -1,5 +1,5 @@
-import MetroHero from "@/components/ui/scroll-locked-video-hero";
+import TableBlock from "@/components/ui/team-members-data-table";
 
-export default function DemoOne() {
-  return <MetroHero />;
+export default function Default() {
+  return <TableBlock />;
 }

@@ -82,7 +82,7 @@ export default function StepBreakdown({ result, billData, onReset }) {
           </div>
           <div>
             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Discount</div>
-            <div style={{ fontSize: "1.1rem", fontWeight: 700, color: "#34d399" }}>-₹{result.discount}</div>
+            <div style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--success)" }}>-₹{result.discount}</div>
           </div>
           <div>
             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Tax (GST)</div>
@@ -94,7 +94,7 @@ export default function StepBreakdown({ result, billData, onReset }) {
           </div>
           <div style={{ borderLeft: "1px solid var(--surface-border)", paddingLeft: "1rem" }}>
             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Grand Total</div>
-            <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#60a5fa", fontFamily: "var(--font-mono)" }}>
+            <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "var(--primary-brand)", fontFamily: "var(--font-mono)" }}>
               ₹{result.calculated_total}
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function StepBreakdown({ result, billData, onReset }) {
                 <span>₹{person.food_subtotal}</span>
               </div>
               {parseFloat(person.discount_share) > 0 && (
-                <div style={{ display: "flex", justifyContent: "space-between", color: "#34d399", marginBottom: "0.2rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "var(--success)", marginBottom: "0.2rem" }}>
                   <span>Discount share:</span>
                   <span>-₹{person.discount_share}</span>
                 </div>
@@ -161,7 +161,7 @@ export default function StepBreakdown({ result, billData, onReset }) {
       {/* Sharing & Actions Card */}
       <div className="card" style={{ marginTop: "1rem" }}>
         <h3 className="card-title" style={{ fontSize: "1.1rem" }}>
-          <Share2 size={18} style={{ color: "#34d399" }} />
+          <Share2 size={18} style={{ color: "var(--primary-brand)" }} />
           Share Bill Split
         </h3>
         <p className="card-desc" style={{ marginBottom: "1rem" }}>
@@ -181,12 +181,12 @@ export default function StepBreakdown({ result, billData, onReset }) {
           )}
 
           <button type="button" className="btn btn-secondary" onClick={handleCopyMessage}>
-            {copiedText ? <Check size={16} style={{ color: "#34d399" }} /> : <Copy size={16} />}
+            {copiedText ? <Check size={16} style={{ color: "var(--success)" }} /> : <Copy size={16} />}
             {copiedText ? "Message Copied!" : "Copy WhatsApp Text"}
           </button>
 
           <button type="button" className="btn btn-secondary" onClick={handleCopyShareLink}>
-            {copiedLink ? <Check size={16} style={{ color: "#34d399" }} /> : <Copy size={16} />}
+            {copiedLink ? <Check size={16} style={{ color: "var(--success)" }} /> : <Copy size={16} />}
             {copiedLink ? "Link Copied!" : "Copy Read-Only Link"}
           </button>
 

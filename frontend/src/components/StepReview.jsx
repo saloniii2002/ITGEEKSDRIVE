@@ -93,7 +93,7 @@ export default function StepReview({ billData, onConfirmComplete, onBack }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
         <div>
           <h2 className="card-title">
-            <CheckCircle2 size={22} style={{ color: "#34d399" }} />
+            <CheckCircle2 size={22} style={{ color: "var(--success)" }} />
             Human Review & Correction
           </h2>
           <p className="card-desc" style={{ marginBottom: "0.25rem" }}>
@@ -166,7 +166,7 @@ export default function StepReview({ billData, onConfirmComplete, onBack }) {
                     <button
                       type="button"
                       onClick={() => handleDeleteItem(index)}
-                      style={{ background: "transparent", border: "none", color: "#f87171", cursor: "pointer" }}
+                      style={{ background: "transparent", border: "none", color: "var(--danger)", cursor: "pointer" }}
                       title="Delete item"
                     >
                       <Trash2 size={16} />
@@ -189,7 +189,7 @@ export default function StepReview({ billData, onConfirmComplete, onBack }) {
       </div>
 
       {/* Summary Charges Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem", background: "#0d1322", padding: "1.25rem", borderRadius: "12px", border: "1px solid var(--surface-border)", marginBottom: "1.5rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem", background: "#FAF7F2", padding: "1.25rem", borderRadius: "12px", border: "1px solid var(--surface-border)", marginBottom: "1.5rem" }}>
         <div className="form-group" style={{ margin: 0 }}>
           <label className="form-label">Subtotal (₹)</label>
           <input
@@ -231,12 +231,12 @@ export default function StepReview({ billData, onConfirmComplete, onBack }) {
           />
         </div>
         <div className="form-group" style={{ margin: 0 }}>
-          <label className="form-label" style={{ color: "#60a5fa" }}>Printed Bill Total (₹)</label>
+          <label className="form-label" style={{ color: "var(--primary-brand)" }}>Printed Bill Total (₹)</label>
           <input
             type="number"
             step="0.01"
             className="input-number"
-            style={{ fontWeight: "bold", borderColor: "#3b82f6" }}
+            style={{ fontWeight: "bold", borderColor: "var(--primary-brand)" }}
             value={total}
             onChange={(e) => setTotal(e.target.value)}
           />

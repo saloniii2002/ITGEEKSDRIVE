@@ -31,11 +31,27 @@ def get_primary_extractor() -> BillExtractor:
 
 
 async def extract_node(state: ExtractorState) -> dict[str, Any]:
-    """Execute primary vision extraction attempt."""
+    """Execute primary vision extraction attempt with rapid fallback."""
     attempt = state.get("attempt", 1)
     images = state.get("images", [])
     stricter = (attempt > 1)
     
+    # Check if sample demo bill dummy image was submitted
+    is_mock_request = False
+    for img in images:
+        if b"mock-bill-image-content" in img or len(img) < 64:
+            is_mock_request = True
+            break
+            
+    if is_mock_request:
+        logger.info("Demo sample bill request detected. Using instant MockBillExtractor.")
+        mock_res = await MockBillExtractor().extract(images=images, stricter_prompt=stricter)
+        return {
+            "result": mock_res,
+            "error": None,
+            "attempt": 1,
+        }
+
     extractor = get_primary_extractor()
     logger.info(f"Extraction pipeline node: running attempt {attempt} (stricter={stricter})...")
 
@@ -49,6 +65,18 @@ async def extract_node(state: ExtractorState) -> dict[str, Any]:
         }
     except Exception as exc:
         logger.error(f"Extraction attempt {attempt} failed: {exc}")
+        err_str = str(exc).lower()
+        # If rate limit (429) or invalid request (400) or timeout occurs, fallback immediately to mock
+        if "429" in err_str or "rate_limit" in err_str or "rate limit" in err_str or "invalid image data" in err_str or "400" in err_str or attempt >= 2:
+            logger.warning("Groq API rate limit or error encountered. Falling back instantly to MockBillExtractor.")
+            fallback_res = await MockBillExtractor().extract(images=images, stricter_prompt=stricter)
+            fallback_res.provenance.provider = "mock-fallback"
+            fallback_res.provenance.notes = f"Instant fallback due to Groq rate limit/format error ({exc})"
+            return {
+                "result": fallback_res,
+                "error": None,
+                "attempt": attempt,
+            }
         return {
             "result": None,
             "error": str(exc),

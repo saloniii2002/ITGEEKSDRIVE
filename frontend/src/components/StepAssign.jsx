@@ -88,7 +88,7 @@ export default function StepAssign({ billData, people, onCalculateComplete, onBa
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
         <div>
           <h2 className="card-title">
-            <CheckSquare size={22} style={{ color: "#3b82f6" }} />
+            <CheckSquare size={22} style={{ color: "var(--primary-brand)" }} />
             Assign Items to Consumers
           </h2>
           <p className="card-desc" style={{ marginBottom: "0.25rem" }}>
@@ -111,7 +111,7 @@ export default function StepAssign({ billData, people, onCalculateComplete, onBa
       {unassignedPrompt && (
         <div className="banner banner-warning" style={{ flexDirection: "column", gap: "0.5rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: 700 }}>
-            <AlertTriangle size={20} style={{ color: "#f59e0b" }} />
+            <AlertTriangle size={20} style={{ color: "var(--warning)" }} />
             Calculation Blocked: Unassigned Items Detected!
           </div>
           <p style={{ fontSize: "0.875rem" }}>
@@ -140,8 +140,8 @@ export default function StepAssign({ billData, people, onCalculateComplete, onBa
             <div
               key={item.id}
               style={{
-                background: "#0d1322",
-                border: isUnassigned ? "1px solid #7f1d1d" : "1px solid var(--surface-border)",
+                background: "#FAF7F2",
+                border: isUnassigned ? "1px solid var(--danger-border)" : "1px solid var(--surface-border)",
                 borderRadius: "12px",
                 padding: "1rem 1.25rem",
               }}
@@ -176,20 +176,22 @@ export default function StepAssign({ billData, people, onCalculateComplete, onBa
                         display: "inline-flex",
                         alignItems: "center",
                         gap: "0.4rem",
-                        background: isChecked ? "rgba(59, 130, 246, 0.2)" : "#131b2e",
-                        border: isChecked ? "1px solid #3b82f6" : "1px solid var(--surface-border)",
+                        background: isChecked ? "var(--primary-light)" : "#FFFFFF",
+                        border: isChecked ? "1px solid var(--primary-brand)" : "1px solid var(--surface-border)",
+                        color: isChecked ? "var(--primary-brand)" : "var(--text-main)",
                         padding: "0.4rem 0.75rem",
                         borderRadius: "8px",
                         cursor: "pointer",
                         fontSize: "0.875rem",
                         fontWeight: isChecked ? 600 : 400,
+                        transition: "all 0.15s ease",
                       }}
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => togglePerson(item.id, person.id)}
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", accentColor: "var(--primary-brand)" }}
                       />
                       {person.name}
                     </label>
