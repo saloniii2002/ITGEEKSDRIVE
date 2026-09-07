@@ -11,9 +11,9 @@ class Settings:
     OPENAI_API_KEY: str = os.environ.get("OPENAI_API_KEY", "")
     GEMINI_API_KEY: str = os.environ.get("GEMINI_API_KEY", "")
     
-    # Vision models
-    GROQ_VISION_MODEL: str = os.environ.get("GROQ_VISION_MODEL", "llama-3.2-11b-vision-preview")
-    GROQ_TEXT_MODEL: str = os.environ.get("GROQ_TEXT_MODEL", "llama-3.3-70b-versatile")
+    # Non-LLaMA models on Groq
+    GROQ_VISION_MODEL: str = os.environ.get("GROQ_VISION_MODEL", "qwen/qwen3.8-27b")
+    GROQ_TEXT_MODEL: str = os.environ.get("GROQ_TEXT_MODEL", "openai/gpt-oss-120b")
     
     # Database
     DATABASE_URL: str = os.environ.get("DATABASE_URL", "sqlite:///./bills.db")

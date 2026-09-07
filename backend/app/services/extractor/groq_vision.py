@@ -1,7 +1,9 @@
 import base64
+import io
 import json
 import logging
 from typing import Any, Optional
+from PIL import Image
 from groq import AsyncGroq
 
 from backend.app.config import settings
@@ -10,15 +12,15 @@ from backend.app.services.extractor.base import BillExtractor, ExtractionProvena
 
 logger = logging.getLogger(__name__)
 
-SYSTEM_PROMPT = """You are an expert restaurant bill and receipt parser.
-Extract all line items, charges, discounts, taxes, and totals from the provided receipt photo(s).
+SYSTEM_PROMPT = """You are an expert restaurant receipt and bill parser.
+Extract all line items, charges, discounts, taxes, and totals from the provided receipt image(s).
 
 Rules:
-1. Return ONLY a valid JSON object matching this exact schema:
+1. Return ONLY a valid JSON object matching this schema:
 {
   "items": [
     {
-      "name": "string (item name as printed)",
+      "name": "string (name of item)",
       "quantity": 1,
       "price": 120.50,
       "confidence": 0.95
@@ -32,11 +34,11 @@ Rules:
 }
 2. "price" must be the TOTAL line price for that item (quantity * unit price), NOT unit price alone.
 3. Assess per-item confidence (0.0 to 1.0):
-   - Clear printed item with clear price: 0.90 - 1.00
+   - Clear printed line: 0.90 - 1.00
    - Slight glare or minor crease: 0.75 - 0.89
-   - Faded thermal print, crumpled paper, steep angle, handwriting, or mixed scripts: 0.40 - 0.74
-   - Never guess silently! If a digit is uncertain, provide your best read and assign a low confidence score.
-4. If multiple photos of a long receipt are provided, merge them sequentially into a single unified item list.
+   - Faded print, crumpled, handwriting, or low contrast: 0.40 - 0.74
+   - Never guess silently! If a digit is uncertain, assign a lower confidence.
+4. If multiple photos of a long receipt are provided, merge them sequentially into a single item list.
 5. If discount, tax, or service charge are not present, set their value to 0.0.
 """
 
@@ -46,20 +48,40 @@ Your previous extraction had low confidence or arithmetic discrepancy.
 - Carefully inspect every price digit and decimal point.
 - Ensure that the sum of line items aligns with the subtotal.
 - Check for handwritten additions, split taxes (CGST + SGST), or discounts.
-- Be especially honest with confidence scores (0.0 to 1.0).
+- Be honest with confidence scores (0.0 to 1.0).
 """
+
+
+def _prepare_image_base64(image_bytes: bytes, max_dim: int = 1024) -> str:
+    """Resize large smartphone photos to manageable dimensions and convert to JPEG base64."""
+    try:
+        img = Image.open(io.BytesIO(image_bytes))
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        
+        # Scale down if either dimension exceeds max_dim
+        w, h = img.size
+        if w > max_dim or h > max_dim:
+            img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
+            
+        buf = io.BytesIO()
+        img.save(buf, format="JPEG", quality=85)
+        return base64.b64encode(buf.getvalue()).decode("utf-8")
+    except Exception as exc:
+        logger.warning(f"PIL resize failed, falling back to raw bytes: {exc}")
+        return base64.b64encode(image_bytes).decode("utf-8")
 
 
 class GroqVisionExtractor(BillExtractor):
     """
-    Vision-capable LLM extractor using Groq Vision models (e.g. llama-3.2-11b-vision-preview).
+    Vision LLM extractor using non-LLaMA vision model (qwen/qwen3.8-27b) on Groq.
     Extracts structured ExtractedBill directly from receipt images without any classical OCR.
     """
 
     def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None):
         self.api_key = api_key or settings.GROQ_API_KEY
         self.model = model or settings.GROQ_VISION_MODEL
-        self.client = AsyncGroq(api_key=self.api_key) if self.api_key else None
+        self.client = AsyncGroq(api_key=self.api_key, timeout=45.0) if self.api_key else None
 
     async def extract(
         self,
@@ -78,14 +100,12 @@ class GroqVisionExtractor(BillExtractor):
         if stricter_prompt:
             system_instruction += "\n" + STRICTER_ADDENDUM
 
-        # Format content for vision API (text prompt + base64 image data URLs)
         user_content: list[dict[str, Any]] = [
             {"type": "text", "text": "Please extract all items and totals from the following restaurant bill image(s):"}
         ]
 
-        for idx, img_bytes in enumerate(images):
-            # Detect mime type or default to jpeg/png
-            b64_img = base64.b64encode(img_bytes).decode("utf-8")
+        for img_bytes in images:
+            b64_img = _prepare_image_base64(img_bytes)
             data_url = f"data:image/jpeg;base64,{b64_img}"
             user_content.append({
                 "type": "image_url",
@@ -102,7 +122,7 @@ class GroqVisionExtractor(BillExtractor):
             ],
             response_format={"type": "json_object"},
             temperature=0.1 if stricter_prompt else 0.2,
-            max_tokens=2048,
+            max_tokens=800,
         )
 
         content = response.choices[0].message.content
@@ -129,7 +149,7 @@ class GroqVisionExtractor(BillExtractor):
             model=self.model,
             attempt_count=2 if stricter_prompt else 1,
             average_confidence=round(avg_conf, 2),
-            notes=f"Extracted {len(extracted_bill.items)} items across {len(images)} image(s)"
+            notes=f"Extracted {len(extracted_bill.items)} items using non-LLaMA model ({self.model})"
         )
 
         return ExtractionResult(bill=extracted_bill, provenance=provenance)

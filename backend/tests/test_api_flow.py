@@ -2,14 +2,18 @@ import io
 import pytest
 from fastapi.testclient import TestClient
 
-from backend.app.main import app
+from backend.app.config import settings
 from backend.app.database import Base, engine
+from backend.app.main import app
 
 
 @pytest.fixture(autouse=True)
 def setup_db():
+    original_force_mock = settings.FORCE_MOCK_EXTRACTOR
+    settings.FORCE_MOCK_EXTRACTOR = True
     Base.metadata.create_all(bind=engine)
     yield
+    settings.FORCE_MOCK_EXTRACTOR = original_force_mock
     # Cleanup tables after test
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
