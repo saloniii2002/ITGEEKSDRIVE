@@ -184,7 +184,7 @@ export default function StepReview({ billData, onConfirmComplete, onBack }) {
           <Plus size={14} /> Add Missing Item
         </button>
         <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
-          Sum of items: <strong style={{ color: "#ffffff" }}>₹{calculatedItemsSum}</strong>
+          Sum of items: <strong style={{ color: "var(--text-main)" }}>₹{calculatedItemsSum}</strong>
         </span>
       </div>
 

@@ -4,38 +4,38 @@
 
 @layer base {
   :root {
-    /* Warm White & Beige Palette (HSL Tokens for shadcn) */
-    --background: 38 28% 97%;       /* #FAF8F5 - Warm Alabaster Cream */
+    /* Luxury Warm Off-White & Beige Palette (HSL Tokens for shadcn) */
+    --background: 40 28% 95.5%;     /* #F7F4EE - Soft Warm Off-White Linen */
     --foreground: 25 22% 16%;       /* #2B231E - Deep Warm Espresso */
-    --card: 0 0% 100%;             /* #FFFFFF - Crisp Warm White */
+    --card: 38 35% 97.5%;           /* #FAF7F2 - Soft Warm Ivory Off-White */
     --card-foreground: 25 22% 16%;  /* #2B231E */
-    --popover: 0 0% 100%;          /* #FFFFFF */
+    --popover: 38 35% 97.5%;        /* #FAF7F2 */
     --popover-foreground: 25 22% 16%;
     --primary: 26 42% 38%;         /* #8A5328 - Warm Caramel Bronze / Deep Cognac */
-    --primary-foreground: 38 35% 98%; /* #FDFCF9 */
-    --secondary: 36 28% 93%;       /* #F4EFEB - Warm Linen Beige */
+    --primary-foreground: 38 35% 98%; /* #FAF7F2 */
+    --secondary: 36 24% 91%;       /* #EFE9DF - Warm Linen Beige */
     --secondary-foreground: 25 25% 22%; /* #3B3028 */
-    --muted: 36 25% 93%;           /* #F3EEE7 */
+    --muted: 36 22% 91%;           /* #EEE8DE */
     --muted-foreground: 25 12% 46%; /* #73675E - Warm Taupe Stone */
-    --accent: 36 28% 91%;          /* #EEE6DB - Warm Sand */
+    --accent: 36 26% 89%;          /* #E9E1D4 - Warm Sand */
     --accent-foreground: 25 22% 16%;
     --destructive: 0 72% 51%;      /* Warm Crimson */
-    --destructive-foreground: 0 0% 100%;
-    --border: 36 20% 86%;          /* #E5DFD4 - Subtle Warm Beige Border */
-    --input: 36 20% 86%;           /* #E5DFD4 */
+    --destructive-foreground: 38 35% 98%;
+    --border: 36 18% 85%;          /* #E3DDD1 - Subtle Warm Beige Border */
+    --input: 36 18% 85%;           /* #E3DDD1 */
     --ring: 26 42% 38%;
     --radius: 0.65rem;
 
     /* Semantic Theme Variables */
-    --bg: #FAF8F5;                 /* Warm Linen Alabaster */
-    --bg-secondary: #F3EEE7;       /* Soft Sand Beige */
-    --surface: #FFFFFF;            /* Pure Crisp White Card */
-    --surface-hover: #F8F5EE;      /* Gentle Warm Beige Hover */
-    --surface-border: #E8E2D7;     /* Elegant Warm Beige Border */
-    --surface-border-subtle: #F0EAE0;
+    --bg: #F7F4EE;                 /* Soft Warm Off-White Linen */
+    --bg-secondary: #EFE9DF;       /* Warm Sand Off-White */
+    --surface: #FAF7F2;            /* Luxurious Warm Ivory Off-White */
+    --surface-hover: #F2ECE1;      /* Gentle Warm Off-White Hover */
+    --surface-border: #E3DDD1;     /* Elegant Warm Beige Border */
+    --surface-border-subtle: #EBE5DA;
     --primary-brand: #8A5328;      /* Warm Cognac Bronze */
     --primary-hover: #73431E;
-    --primary-light: #F7EFE7;
+    --primary-light: #F4ECE3;
     --text-main: #241D17;          /* Rich Deep Espresso Charcoal */
     --text-muted: #6E6359;         /* Sophisticated Taupe */
     --text-light: #998C80;
@@ -167,12 +167,12 @@ body {
 
 .step-item.active .step-number {
   background: var(--primary-brand);
-  color: #FFFFFF;
+  color: var(--primary-foreground);
 }
 
 .step-item.completed .step-number {
   background: var(--success);
-  color: #FFFFFF;
+  color: var(--primary-foreground);
 }
 
 /* Cards */
@@ -283,7 +283,7 @@ body {
 
 .input-text, .input-number {
   width: 100%;
-  background: #FFFFFF;
+  background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: var(--radius-sm);
   padding: 0.6rem 0.85rem;
@@ -318,7 +318,7 @@ body {
 
 .btn-primary {
   background: var(--primary-brand);
-  color: #FFFFFF;
+  color: var(--primary-foreground);
   box-shadow: 0 2px 6px rgba(138, 83, 40, 0.25);
 }
 
@@ -329,19 +329,19 @@ body {
 }
 
 .btn-secondary {
-  background: #F4EFEB;
+  background: #EFE8DE;
   color: #382F27;
   border: 1px solid var(--surface-border);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: #EBE4D8;
+  background: #E6DECE;
   color: #1F1710;
 }
 
 .btn-success {
   background: var(--success);
-  color: #FFFFFF;
+  color: var(--primary-foreground);
 }
 
 .btn-success:hover:not(:disabled) {
@@ -350,7 +350,7 @@ body {
 
 .btn-danger {
   background: var(--danger);
-  color: #FFFFFF;
+  color: var(--primary-foreground);
 }
 
 .btn:disabled {
@@ -366,18 +366,18 @@ body {
 
 /* Dropzone */
 .dropzone {
-  border: 2px dashed #DCD4C7;
+  border: 2px dashed #D5CCC0;
   border-radius: var(--radius-lg);
   padding: 3.25rem 1.75rem;
   text-align: center;
   cursor: pointer;
-  background: #FBF9F5;
+  background: #FAF5EC;
   transition: all 0.2s ease;
 }
 
 .dropzone:hover {
   border-color: var(--primary-brand);
-  background: #F8F3EA;
+  background: #F4EDE0;
 }
 
 /* Tables */
@@ -386,7 +386,7 @@ body {
   border: 1px solid var(--surface-border);
   border-radius: var(--radius-md);
   margin-bottom: 1.5rem;
-  background: #FFFFFF;
+  background: var(--surface);
   box-shadow: 0 1px 3px rgba(45, 35, 25, 0.02);
 }
 
@@ -398,7 +398,7 @@ table {
 }
 
 th {
-  background: #F6F1EA;
+  background: #EFE8DD;
   padding: 0.85rem 1rem;
   font-weight: 600;
   color: var(--text-muted);
@@ -410,7 +410,7 @@ th {
 
 td {
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid #F0EAE0;
+  border-bottom: 1px solid var(--surface-border-subtle);
   color: var(--text-main);
 }
 
@@ -419,7 +419,7 @@ tr:last-child td {
 }
 
 tr:hover td {
-  background: #FDFCF9;
+  background: var(--surface-hover);
 }
 
 /* Breakdown Grid */
@@ -431,7 +431,7 @@ tr:hover td {
 }
 
 .person-card {
-  background: #FFFFFF;
+  background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: var(--radius-md);
   padding: 1.35rem;

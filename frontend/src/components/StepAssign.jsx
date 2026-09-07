@@ -176,7 +176,7 @@ export default function StepAssign({ billData, people, onCalculateComplete, onBa
                         display: "inline-flex",
                         alignItems: "center",
                         gap: "0.4rem",
-                        background: isChecked ? "var(--primary-light)" : "#FFFFFF",
+                        background: isChecked ? "var(--primary-light)" : "var(--surface)",
                         border: isChecked ? "1px solid var(--primary-brand)" : "1px solid var(--surface-border)",
                         color: isChecked ? "var(--primary-brand)" : "var(--text-main)",
                         padding: "0.4rem 0.75rem",
