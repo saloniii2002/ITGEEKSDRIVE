@@ -1,42 +1,59 @@
 import React, { useState } from "react";
-import { Users, UserPlus, Trash2, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { addPeople } from "../api";
+import TableBlock from "@/components/ui/team-members-data-table";
 
 export default function StepPeople({ billData, onPeopleComplete, onBack }) {
-  const [people, setPeople] = useState([
-    { name: "Alice", email: "", phone: "" },
-    { name: "Bob", email: "", phone: "" },
-    { name: "Charlie", email: "", phone: "" },
+  const [members, setMembers] = useState([
+    {
+      id: "m-01",
+      name: "Alice Smith",
+      initials: "AS",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      email: "alice@example.com",
+      status: "Active",
+      role: "Admin",
+      joined: "2026-06-12",
+    },
+    {
+      id: "m-02",
+      name: "Bob Johnson",
+      initials: "BJ",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      email: "bob@example.com",
+      status: "Active",
+      role: "Editor",
+      joined: "2026-06-10",
+    },
+    {
+      id: "m-03",
+      name: "Charlie Brown",
+      initials: "CB",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+      email: "charlie@example.com",
+      status: "Active",
+      role: "Viewer",
+      joined: "2026-06-08",
+    },
   ]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  const handlePersonChange = (index, field, value) => {
-    const updated = [...people];
-    updated[index] = { ...updated[index], [field]: value };
-    setPeople(updated);
-  };
+  const handleSave = async (dinerList = members) => {
+    const list = Array.isArray(dinerList) ? dinerList : members;
+    const validPeople = list
+      .filter((p) => p.name && p.name.trim().length > 0)
+      .map((p) => ({
+        name: p.name.trim(),
+        email: p.email || "",
+        phone: "",
+      }));
 
-  const handleAddPerson = () => {
-    setPeople([...people, { name: "", email: "", phone: "" }]);
-  };
-
-  const handleRemovePerson = (index) => {
-    if (people.length <= 1) {
-      setError("Must have at least one person.");
-      return;
-    }
-    const updated = people.filter((_, i) => i !== index);
-    setPeople(updated);
-    setError(null);
-  };
-
-  const handleSave = async () => {
-    const validPeople = people.filter((p) => p.name.trim().length > 0);
     if (validPeople.length === 0) {
-      setError("Please provide a name for at least one person.");
+      setError("Please add at least one person to split the bill.");
       return;
     }
+
     setSaving(true);
     setError(null);
     try {
@@ -50,95 +67,34 @@ export default function StepPeople({ billData, onPeopleComplete, onBack }) {
   };
 
   return (
-    <div className="card">
-      <h2 className="card-title">
-        <Users size={22} style={{ color: "#60a5fa" }} />
-        Add People (2–3+ Consumers)
-      </h2>
-      <p className="card-desc">
-        Enter the names of the people sharing this meal. You will assign bill items to them in the next step.
-      </p>
-
+    <div className="flex flex-col gap-4">
       {error && (
-        <div className="banner banner-danger" style={{ marginBottom: "1rem" }}>
+        <div className="banner banner-danger">
           <div>{error}</div>
         </div>
       )}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.5rem" }}>
-        {people.map((person, index) => (
-          <div
-            key={index}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.5fr 1.5fr 1fr auto",
-              gap: "0.75rem",
-              alignItems: "center",
-              background: "#0d1322",
-              padding: "0.75rem 1rem",
-              borderRadius: "8px",
-              border: "1px solid var(--surface-border)",
-            }}
-          >
-            <div>
-              <label className="form-label" style={{ fontSize: "0.75rem" }}>Name *</label>
-              <input
-                type="text"
-                placeholder="e.g. Alice"
-                className="input-text"
-                value={person.name}
-                onChange={(e) => handlePersonChange(index, "name", e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="form-label" style={{ fontSize: "0.75rem" }}>Email (Optional)</label>
-              <input
-                type="email"
-                placeholder="alice@example.com"
-                className="input-text"
-                value={person.email}
-                onChange={(e) => handlePersonChange(index, "email", e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="form-label" style={{ fontSize: "0.75rem" }}>Phone (Optional)</label>
-              <input
-                type="tel"
-                placeholder="+91..."
-                className="input-text"
-                value={person.phone}
-                onChange={(e) => handlePersonChange(index, "phone", e.target.value)}
-              />
-            </div>
-            <button
-              type="button"
-              onClick={() => handleRemovePerson(index)}
-              style={{ background: "transparent", border: "none", color: "#f87171", cursor: "pointer", marginTop: "1rem" }}
-              title="Remove Person"
-            >
-              <Trash2 size={18} />
-            </button>
-          </div>
-        ))}
-      </div>
+      <TableBlock
+        membersData={members}
+        onMembersChange={(updated) => setMembers(updated)}
+        onProceed={(selected) => handleSave(selected)}
+      />
 
-      <div style={{ display: "flex", gap: "0.75rem", marginBottom: "1.5rem" }}>
-        <button type="button" className="btn btn-secondary btn-sm" onClick={handleAddPerson}>
-          <UserPlus size={14} /> Add Another Person
-        </button>
-      </div>
-
-      <div className="action-bar">
-        <button type="button" className="btn btn-secondary" onClick={onBack}>
-          Back to Review
+      <div className="flex items-center justify-between pt-2">
+        <button
+          type="button"
+          className="btn btn-secondary inline-flex items-center gap-2"
+          onClick={onBack}
+        >
+          <ArrowLeft size={16} /> Back to Review
         </button>
         <button
           type="button"
-          className="btn btn-primary"
-          onClick={handleSave}
-          disabled={saving || people.filter((p) => p.name.trim()).length === 0}
+          className="btn btn-primary inline-flex items-center gap-2"
+          onClick={() => handleSave(members)}
+          disabled={saving || members.length === 0}
         >
-          {saving ? "Saving People..." : "Continue to Assign Items"} <ArrowRight size={16} />
+          {saving ? "Saving Diners..." : "Proceed to Assign Items"} <ArrowRight size={16} />
         </button>
       </div>
     </div>

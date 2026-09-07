@@ -1,36 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --bg: #0b0f17;
-  --surface: #131b2e;
-  --surface-hover: #1a253e;
-  --surface-border: #243354;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --accent: #6366f1;
-  --success: #10b981;
-  --success-bg: rgba(16, 185, 129, 0.12);
-  --success-border: #059669;
-  --warning: #f59e0b;
-  --warning-bg: rgba(245, 158, 11, 0.12);
-  --warning-border: #d97706;
-  --danger: #ef4444;
-  --danger-bg: rgba(239, 68, 68, 0.12);
-  --danger-border: #dc2626;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+@layer base {
+  :root {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 217 91% 60%;
+    --radius: 0.5rem;
+
+    /* Legacy App Variables */
+    --bg: #0b0f17;
+    --surface: #131b2e;
+    --surface-hover: #1a253e;
+    --surface-border: #243354;
+    --primary-hover: #2563eb;
+    --success: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.12);
+    --success-border: #059669;
+    --warning: #f59e0b;
+    --warning-bg: rgba(245, 158, 11, 0.12);
+    --warning-border: #d97706;
+    --danger: #ef4444;
+    --danger-bg: rgba(239, 68, 68, 0.12);
+    --danger-border: #dc2626;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  }
 }
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
@@ -251,7 +273,7 @@ body {
 
 .input-text:focus, .input-number:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: #3b82f6;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
@@ -272,12 +294,12 @@ body {
 }
 
 .btn-primary {
-  background: var(--primary);
+  background: #3b82f6;
   color: #ffffff;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--primary-hover);
+  background: #2563eb;
 }
 
 .btn-secondary {
@@ -291,7 +313,7 @@ body {
 }
 
 .btn-success {
-  background: var(--success);
+  background: #10b981;
   color: #ffffff;
 }
 
@@ -300,7 +322,7 @@ body {
 }
 
 .btn-danger {
-  background: var(--danger);
+  background: #ef4444;
   color: #ffffff;
 }
 
@@ -326,7 +348,7 @@ body {
 }
 
 .dropzone:hover {
-  border-color: var(--primary);
+  border-color: #3b82f6;
   background: rgba(59, 130, 246, 0.05);
 }
 
