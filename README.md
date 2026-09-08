@@ -1,6 +1,7 @@
 # 🧾 Deterministic Bill Splitter MVP (v2)
 
 > **A full-stack, production-grade restaurant bill splitting web application with multimodal AI vision extraction, human-in-the-loop review, and deterministic mathematical calculations.**
+
 ---
 
 ## 🌟 Table of Contents
@@ -234,41 +235,95 @@ As mandated by the evaluation spec, 12 real-world restaurant receipts covering a
 
 ## 8. Local Setup & Running Instructions
 
-### 1. Prerequisites
-- Python 3.10+
-- Node.js 18+ and npm
+### 📋 Prerequisites
+Make sure you have the following installed on your machine:
+- **Python**: `3.10` or higher ([Download Python](https://www.python.org/downloads/))
+- **Node.js**: `v18` or higher & **npm** ([Download Node.js](https://nodejs.org/))
+- **Git**
 
-### 2. Backend Setup
+---
+
+### 1️⃣ Clone the Repository
 ```bash
-cd "backend"
-
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Configure environment variables
-cp ../.env.example ../.env
-# Edit .env and set GROQ_API_KEY=gsk_...
+git clone https://github.com/saloniii2002/ITGEEKSDRIVE.git
+cd ITGEEKSDRIVE
 ```
 
-### 3. Run Backend Server
+---
+
+### 2️⃣ Backend Setup (Python FastAPI)
+
+Open a terminal and navigate to the project root:
+
+```bash
+# 1. Create a Python virtual environment
+python3 -m venv venv
+
+# 2. Activate the virtual environment
+# On macOS / Linux:
+source venv/bin/activate
+# On Windows (Command Prompt):
+# venv\Scripts\activate.bat
+# On Windows (PowerShell):
+# venv\Scripts\Activate.ps1
+
+# 3. Install backend dependencies
+pip install -r backend/requirements.txt
+
+# 4. Configure Environment Variables
+cp .env.example .env
+```
+
+> **Note:** Open `.env` and add your Groq API key:
+> ```env
+> GROQ_API_KEY=gsk_your_groq_api_key_here
+> ```
+*(If no API key is provided, the app automatically runs in deterministic mock/demo mode with instant extraction!)*
+
+#### ▶️ Start the Backend Server:
 ```bash
 uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
-Interactive API docs available at: **`http://localhost:8000/docs`**
+* Backend API runs at: **`http://localhost:8000`**
+* Interactive Swagger API Docs: **`http://localhost:8000/docs`**
 
-### 4. Frontend Setup & Run
+---
+
+### 3️⃣ Frontend Setup (React + Vite)
+
+Open a **new terminal window** in the project root:
+
 ```bash
-cd "frontend"
+# 1. Navigate to the frontend folder
+cd frontend
+
+# 2. Install dependencies
 npm install
+
+# 3. Start the Vite development server
 npm run dev
 ```
-Open your browser at: **`http://localhost:5173/`**
 
-### 5. Run Automated Test Suite
+* Frontend application runs at: **`http://localhost:5173/`**
+
+---
+
+### 4️⃣ Running Automated Tests (10/10 Tests)
+
+To verify the core math engine, Hare–Niemeyer allocation, and API flows:
+
 ```bash
+# Make sure your Python venv is activated
 pytest -v
 ```
+
+---
+
+### 🌐 Quick Access Summary
+
+| Service | URL | Description |
+| :--- | :--- | :--- |
+| **Web App (UI)** | [http://localhost:5173](http://localhost:5173) | Main bill splitting workflow |
+| **Backend API** | [http://localhost:8000](http://localhost:8000) | FastAPI REST service |
+| **Swagger Docs** | [http://localhost:8000/docs](http://localhost:8000/docs) | Interactive API documentation |
+
