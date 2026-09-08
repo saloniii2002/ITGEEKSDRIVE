@@ -1,7 +1,6 @@
 # 🧾 Deterministic Bill Splitter MVP (v2)
 
 > **A full-stack, production-grade restaurant bill splitting web application with multimodal AI vision extraction, human-in-the-loop review, and deterministic mathematical calculations.**
-
 ---
 
 ## 🌟 Table of Contents
