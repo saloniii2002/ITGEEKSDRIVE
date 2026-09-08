@@ -4,7 +4,16 @@
 
 ---
 
+## 📺 Video Demo Walkthrough
+
+[![Watch Demo Video](https://img.youtube.com/vi/XmRRgLhj2iE/maxresdefault.jpg)](https://youtu.be/XmRRgLhj2iE)
+
+▶️ **Watch the complete project demonstration on YouTube:** [https://youtu.be/XmRRgLhj2iE](https://youtu.be/XmRRgLhj2iE)
+
+---
+
 ## 🌟 Table of Contents
+- [Video Demo Walkthrough](#-video-demo-walkthrough)
 - [1. What We're Building & Problem Statement](#1-what-were-building--problem-statement)
 - [2. Core Mathematical & Engineering Guarantees](#2-core-mathematical--engineering-guarantees)
 - [3. End-to-End Walkthrough: Screen-by-Screen](#3-end-to-end-walkthrough-screen-by-screen)
